@@ -1,11 +1,24 @@
-"""fuzzy_logic.py
-Kontroler sterowania pojazdem oparty o logikę rozmytą.
+"""Autonomiczne auto – kontroler fuzzy logic
+===========================================
 
-Wejścia: odległości z 3 czujników (left, front, right).
-Wyjścia: znormalizowana prędkość (mnożnik) oraz znormalizowany skręt [-1, 1]
-który interpretujemy jako szybkość skrętu (prawo dodatnie, lewo ujemne).
+Opis problemu
+-------------
+Moduł implementuje kontroler sterowania pojazdem z użyciem logiki rozmytej.
+Wejściami są odległości od przeszkód zmierzone przez trzy promieniowe czujniki
+(lewy, przedni, prawy). Wyjściami są:
+- znormalizowany skręt ``turn_norm`` w zakresie ``[-1, 1]`` (ujemny – w lewo,
+  dodatni – w prawo),
+- modyfikator prędkości ``speed_factor`` w zakresie ``[0.3, 1.0]``.
 
-Zawiera też funkcje do wizualizacji krzywych przynależności.
+Kontroler udostępnia również funkcje wizualizacji krzywych przynależności
+(near/mid/far) dla odległości, aby ułatwić zrozumienie działania algorytmu.
+
+Autorzy
+-------
+- Kamil Bogdański
+- Adrian Kempski
+
+
 """
 
 from __future__ import annotations
@@ -46,6 +59,14 @@ def trapezoid(x: np.ndarray, a: float, b: float, c: float, d: float) -> np.ndarr
 
 @dataclass
 class FuzzyController:
+    """Kontroler oparty o zbiory rozmyte dla odległości.
+
+    Atrybuty
+    ---------
+    max_range: float
+        Maksymalny zasięg czujników (piksele), wyznacza zakres krzywych
+        przynależności.
+    """
     max_range: float = 220.0
 
     def __post_init__(self):
@@ -83,11 +104,21 @@ class FuzzyController:
 
     # ====== Reguły i defuzyfikacja ======
     def compute(self, d_left: float, d_front: float, d_right: float) -> Tuple[float, float, Dict[str, float]]:
-        """Zwraca (turn_norm, speed_factor, debug_info).
+        """Oblicza sterowanie na podstawie odległości z czujników.
 
-        - turn_norm w [-1, 1]
-        - speed_factor w [0.3, 1.0] (mnożnik prędkości bazowej)
-        - debug_info zwraca m.in. stopnie przynależności dla front
+        Parametry
+        ---------
+        d_left, d_front, d_right : float
+            Odległości (piksele) od najbliższej przeszkody odpowiednio po
+            lewej, z przodu i po prawej stronie pojazdu.
+
+        Zwraca
+        ------
+        (turn_norm, speed_factor, debug_info) : Tuple[float, float, Dict[str, float]]
+            - ``turn_norm``: znormalizowany skręt w ``[-1, 1]``.
+            - ``speed_factor``: mnożnik prędkości bazowej w ``[0.3, 1.0]``.
+            - ``debug_info``: słownik z wartościami pomocniczymi (przynależności,
+              zadziałanie reguł, itp.).
         """
         ml = self.distance_memberships(d_left)
         mf = self.distance_memberships(d_front)

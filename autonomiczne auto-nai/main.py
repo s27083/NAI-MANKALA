@@ -1,15 +1,30 @@
-"""main.py
-Aplikacja Dash wizualizująca stałą mapę, pojazd i działanie logiki rozmytej.
+"""Autonomiczne auto – aplikacja Dash
+=====================================
 
-UI:
-- Graf środowiska (mapa + pozycja pojazdu + promienie czujników)
-- Suwak prędkości bazowej pojazdu
-- Bieżące dane (pozycja, prędkość)
-- Wykres krzywych przynależności odległości oraz aktualnego pomiaru z przodu
+Opis problemu
+-------------
+Interfejs graficzny wizualizujący:
+- stałą mapę-labirynt, pozycję pojazdu i promienie czujników,
+- suwak regulacji prędkości bazowej pojazdu,
+- bieżące dane (prędkość efektywna, pozycja, kąt),
+- wykres krzywych przynależności (near/mid/far) z bieżącą odległością przednią.
 
-Uruchomienie:
-    pip install -r requirements.txt
-    python main.py
+Autorzy
+-------
+- Kamil Bogdański
+- Adrian Kempski
+
+Przygotowanie środowiska
+------------------------
+1. ``python3 -m venv .venv``
+2. ``source .venv/bin/activate``
+3. ``pip install -r requirements.txt``
+4. ``python main.py``
+
+Uwagi
+-----
+- Aplikacja używa biblioteki Dash/Plotly. Tryb debug jest wyłączony.
+- Po wejściu w czerwony prostokąt celu pojazd resetuje się na pozycję startową.
 """
 
 from __future__ import annotations

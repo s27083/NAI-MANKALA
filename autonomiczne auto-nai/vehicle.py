@@ -1,10 +1,28 @@
-"""vehicle.py
-Implementacja prostego pojazdu (koło) poruszającego się w 2D
-z czujnikami odległości (promienie) i kontrolą fuzzy.
+"""Autonomiczne auto – moduł pojazdu
+====================================
 
-Pojazd porusza się kinematycznie: x += v*dt*cos(theta), y += v*dt*sin(theta)
-Skręt realizowany jako zmiana kąta: theta += turn_rate*dt,
-gdzie turn_rate powstaje ze znormalizowanego wyjścia fuzzy.
+Opis problemu
+-------------
+Moduł definiuje pojazd jako koło poruszające się w 2D, wyposażone w trzy
+promieniowe czujniki odległości (lewy, przedni, prawy). Pojazd stosuje sterowanie
+kinematyczne z prędkością liniową oraz prędkością skrętu wynikającą z logiki
+rozmytej. Zapewnia zbieranie danych z czujników, wykonywanie kroku symulacji,
+wykrywanie kolizji i figury do wizualizacji.
+
+Autorzy
+-------
+- Kamil Bogdański
+- Adrian Kempski
+
+
+
+Model ruchu
+-----------
+Ruch kinematyczny:
+``x += v * dt * cos(theta)``
+``y += v * dt * sin(theta)``
+``theta += turn_rate * dt``
+gdzie ``turn_rate`` jest liniowo skalowany z wyjścia ``turn_norm`` kontrolera.
 """
 
 from __future__ import annotations
@@ -22,6 +40,20 @@ Point = Tuple[float, float]
 
 @dataclass
 class Vehicle:
+    """Reprezentacja pojazdu i jego dynamiki.
+
+    Atrybuty
+    ---------
+    radius : float
+        Promień koła pojazdu (piksele).
+    base_speed : float
+        Bazowa prędkość liniowa (piksele/s), korygowana przez fuzzy logic i
+        regulowana suwakiem w UI.
+    sensor_range : float
+        Maksymalny zasięg czujników odległości.
+    max_turn_rate : float
+        Maksymalna prędkość skrętu (rad/s) dla ``turn_norm=1``.
+    """
     radius: float = 12.0
     base_speed: float = 80.0  # piksele/s – regulowana suwakiem w UI
     sensor_range: float = 220.0
@@ -39,7 +71,14 @@ class Vehicle:
 
     # ====== Percepcja ======
     def sense(self, world: Map) -> Tuple[float, float, float, List[Tuple[Point, Point]]]:
-        """Zwraca (d_left, d_front, d_right, segmenty_promieni_do_rysowania)."""
+        """Symuluje pomiar czujników.
+
+        Zwraca
+        ------
+        (d_left, d_front, d_right, rays)
+            Odległości po lewej, z przodu i po prawej oraz listę segmentów
+            reprezentujących promienie do wizualizacji.
+        """
         rays = []
         dists = []
         for ang in self.sensor_angles:
@@ -52,11 +91,22 @@ class Vehicle:
 
     # ====== Aktualizacja stanu ======
     def step(self, dt: float, world: Map, ctrl: FuzzyController) -> dict:
-        """Wykonuje jeden krok symulacji. Zwraca dane debugowe.
+        """Wykonuje jeden krok symulacji ruchu pojazdu.
 
-        - dt: krok czasu [s]
-        - world: mapa do kolizji i czujników
-        - ctrl: kontroler fuzzy
+        Parametry
+        ---------
+        dt : float
+            Krok czasu w sekundach.
+        world : Map
+            Mapa z funkcjami czujników i kolizji.
+        ctrl : FuzzyController
+            Kontroler logiki rozmytej.
+
+        Zwraca
+        ------
+        dict
+            Słownik danych debugowych do wizualizacji (m.in. odległości,
+            prędkość, promienie czujników, pozycja, kąt).
         """
         # Pomiar czujników
         d_left, d_front, d_right, rays = self.sense(world)

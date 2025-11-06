@@ -1,10 +1,26 @@
-"""map.py
-Stała, bardzo prosta mapa – labirynt w stylu "zygzak" z pionowymi słupkami
-tworzącymi naprzemienne przejścia góra/dół. Zaprojektowane tak, aby wymuszać
-kilka zakrętów i pokazać działanie fuzzy logic.
+"""Autonomiczne auto – moduł mapy
+=================================
 
-Układ współrzędnych: oś X w prawo, oś Y w górę (jak na wykresie Plotly),
-jednostka to piksel.
+Opis problemu
+-------------
+Moduł udostępnia stałą mapę-labirynt w stylu „zygzak”, zaprojektowaną do
+demonstracji poruszania się pojazdu sterowanego logiką rozmytą. Mapa zawiera
+ramkę zewnętrzną, pionowe słupki z naprzemiennymi przejściami oraz prostokąt
+celu. Dostarcza funkcje geometrii (przecięcie promienia z odcinkiem, odległość
+punkt—odcinek, kolizja koła ze ścianą), które wykorzystują czujniki pojazdu
+oraz system detekcji kolizji.
+
+Autorzy
+-------
+- Kamil Bogdański
+- Adrian Kempski
+
+
+Uwagi implementacyjne
+---------------------
+- Układ współrzędnych: oś X w prawo, oś Y w górę (jak w Plotly),
+  jednostka to piksel.
+- Mapa jest stała – brak opcji wgrywania przez użytkownika.
 """
 
 from __future__ import annotations
