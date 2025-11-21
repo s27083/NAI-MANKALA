@@ -4,7 +4,7 @@ Problem: Dostarczyć silnik rekomendacji filmów/seriali oparty o klastrowanie,
 Autorzy: Adrian Kemski s27444 i Kamil Bogdański s27083
 Użycie:
     export OMDB_API_KEY=<twój_klucz>  # opcjonalnie; domyślnie klucz demo OMDb
-    python main.py --user "Adrian Kemski"
+    python3 main.py --user "Adrian Kemski"
 Referencje:
     - Ishika Chatterjee, "A Comparative Study of Clustering Algorithms", Analytics Vidhya, 2020.
 """
