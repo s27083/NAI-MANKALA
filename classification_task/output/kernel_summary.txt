@@ -1,0 +1,9 @@
+Podsumowanie wpływu kerneli SVM na wyniki:
+linear_C1: accuracy=0.974, f1=0.979, precision=0.986, recall=0.972
+linear_C10: accuracy=0.982, f1=0.986, precision=0.986, recall=0.986
+rbf_scale: accuracy=0.982, f1=0.986, precision=0.986, recall=0.986
+rbf_auto: accuracy=0.982, f1=0.986, precision=0.986, recall=0.986
+rbf_g0.1: accuracy=0.956, f1=0.965, precision=0.986, recall=0.944
+poly_deg3: accuracy=0.912, f1=0.935, precision=0.878, recall=1.000
+poly_deg5: accuracy=0.851, f1=0.894, precision=0.809, recall=1.000
+sigmoid: accuracy=0.921, f1=0.936, precision=0.957, recall=0.917

@@ -1,0 +1,18 @@
+Zbiór: breast_cancer
+Link do zbioru: https://archive.ics.uci.edu/dataset/33/breast+cancer+wisconsin+diagnostic
+Model: svm
+Metryki:
+ - accuracy: 0.9825
+ - precision: 0.9861
+ - recall: 0.9861
+ - f1: 0.9861
+ - roc_auc: 0.9950
+ - confusion_tp: 71.0000
+ - confusion_tn: 41.0000
+ - confusion_fp: 1.0000
+ - confusion_fn: 1.0000
+
+Wizualizacje zapisano: classification_task/output/breast_cancer_corr.png
+Macierz pomyłek: classification_task/output/breast_cancer_svm_cm.png
+Podsumowanie kernel: classification_task/output/kernel_summary.txt
+Predykcja próbki: classification_task/output/sample_prediction_breast_cancer_svm.txt
