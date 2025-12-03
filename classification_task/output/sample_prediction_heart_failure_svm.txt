@@ -1,0 +1,4 @@
+Próbka testowa indeks: 0
+Prawdziwa klasa: 0
+Predykcja: 0
+Prawdopodobieństwa klas: [0.806514372750329, 0.19348562724967094]

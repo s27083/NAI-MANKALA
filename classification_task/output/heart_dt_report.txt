@@ -1,0 +1,17 @@
+Zbiór: heart_failure
+Link do zbioru: https://www.kaggle.com/datasets/andrewmvd/heart-failure-clinical-data
+Model: dt
+Metryki:
+ - accuracy: 0.7167
+ - precision: 0.5455
+ - recall: 0.6316
+ - f1: 0.5854
+ - roc_auc: 0.6996
+ - confusion_tp: 12.0000
+ - confusion_tn: 31.0000
+ - confusion_fp: 10.0000
+ - confusion_fn: 7.0000
+
+Wizualizacje zapisano: classification_task/output/heart_failure_corr.png
+Macierz pomyłek: classification_task/output/heart_failure_dt_cm.png
+Predykcja próbki: classification_task/output/sample_prediction_heart_failure_dt.txt
